@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dados
+data:
+  DB_HOST: mysql
+  # DB_PASSWORD: 12345 # informação sensível não fica em confgimap
+  DB_DATABASE: testemed
+  REDIS_HOST: my-release-redis-master.default.svc.cluster.local

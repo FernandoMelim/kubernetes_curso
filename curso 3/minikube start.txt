@@ -1,0 +1,7 @@
+minikube start
+minikube addons enable metrics-server
+minikube addons enable volumesnapshots
+minikube addons enable csi-hostpath-driver
+minikube dashboard
+
+minikube tunnel --bind-address=127.0.0.1 # start load balancer

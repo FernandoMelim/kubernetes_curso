@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vollmed
+  labels:
+    app: vollmed
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vollmed
+  template:
+    metadata:
+      labels:
+        app: vollmed
+    spec:
+      containers:
+      - name: vollmed-api
+        image: leonardosartorello/vollmed:v8
+        ports:
+        - containerPort: 3000
+        env:
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: dados
+                key: DB_HOST
+          - name: REDIS_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: dados
+                key: REDIS_HOST
+          - name: DB_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                name: dados
+                key: DB_DATABASE
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: senhas
+                key: DB_PASSWORD
+        livenessProbe:
+          httpGet:
+            path: /paciente
+            port: 3000
+          initialDelaySeconds: 10 # quanto tempo vai esperar para começar a fazer as requisiçoes http
+          periodSeconds: 5
+        resources:
+            requests:
+              cpu: 10m
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: vollmed-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: vollmed
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
