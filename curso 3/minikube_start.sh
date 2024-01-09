@@ -1,6 +1,6 @@
 #!/bin/bash
 
-minikube start --ports=30007:30007
+minikube start
 minikube addons enable metrics-server
 minikube addons enable volumesnapshots
 minikube addons enable csi-hostpath-driver
@@ -17,4 +17,4 @@ minikube service nodeport-api --url
 
 # kubectl port-forward service/nodeport-api 30030:30030
 
-# minikube tunnel --bind-address=127.0.0.1 # start load balancer
+# minikube tunnel --bind-address=127.0.0.1 

@@ -44,7 +44,7 @@ spec:
           httpGet:
             path: /paciente
             port: 3000
-          initialDelaySeconds: 10 # quanto tempo vai esperar para começar a fazer as requisiçoes http
+          initialDelaySeconds: 60 # quanto tempo vai esperar para começar a fazer as requisiçoes http
           periodSeconds: 5
         resources:
             requests:
