@@ -48,7 +48,7 @@ spec:
           periodSeconds: 5
         resources:
             requests:
-              cpu: 10m
+              cpu: 500m
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
